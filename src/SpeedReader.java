@@ -3,7 +3,9 @@
  * 
  * @author Chris Murphy
  */
-
+import java.awt.Color;
+import java.io.*;
+import java.util.*;
 public class SpeedReader {
 
     public static void main(String[] args) {
@@ -18,26 +20,28 @@ public class SpeedReader {
         StdDraw.setPenColor(StdDraw.BLACK);
         StdDraw.setFont(new java.awt.Font("COURIER", java.awt.Font.BOLD, 100));
 
-        // this is the number to be displayed in the window
-        int count = 0;
+        String fileName = args[0];
 
-        while (true) {
+        try (Scanner in = new Scanner(new File(fileName))){
+            while(in.hasNext()){
+                String word = in.next();
 
-            count++;            
+                // this places the text in the center of the screen
+                // however, it is not displayed until StdDraw.show() is called
+                StdDraw.text(50, 50, String.valueOf(word));
+                // this displays the text
+                StdDraw.show();
 
-            // this places the text in the center of the screen
-            // however, it is not displayed until StdDraw.show() is called
-            StdDraw.text(50, 50, String.valueOf(count));
+                // this causes the program to wait for 500ms, which is 0.5 seconds
+                StdDraw.pause(500);
 
-            // this displays the text
-            StdDraw.show();
+                // this removes everything that is being displayed
+                StdDraw.clear();
 
-            // this causes the program to wait for 500ms, which is 0.5 seconds
-            StdDraw.pause(500);
-
-            // this removes everything that is being displayed
-            StdDraw.clear();
-            
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
